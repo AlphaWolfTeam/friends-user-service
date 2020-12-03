@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+
+  friends-user-service:
+    image: friends-user-service:latest
+    environment:
+      PORT: 8000
+      KARTOFFEL_URL: http://outgoing-proxy-service:8000/kartoffel
+    ports:
+      - 8000:8000
+  
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
+  outgoing-proxy-service:
+    image: spike-proxy-service-master
+    environment:
+      MODE: outgoing
+      PORT: 8000
+      SPIKE_REDIS_HOST: redis://redis
+      SPIKE_CLIENT_ID: hvOItpV~jv0ZiIqEAxLrYx8sxvDHmPfNiw9wtOSz
+      SPIKE_CLIENT_SECRET: e2ar_pCJc27RdT4dFw~6ONYJ~5gVgsWfh9cjuUJ0YyVL0simY3VwehAYwe0qPB_uUIjRXFKzHJUqW7A_KM1DBpPYtQQ183JcdLFr
+      SPIKE_URL: https://51.144.178.121:1337/oauth2/token
+      TOKEN_GRANT_TYPE: client_credentials
+      SPIKE_USER_SERVICE_REDIS_KEY_NAME: kartoffel
+      SPIKE_PUBLIC_KEY_FULL_PATH: ./certificate/publicKey.pem
+      USE_REDIS: 'true'
+      OUTGOING_SERVICES: '[{"route":"/kartoffel/*","pathRewrite":{"^/kartoffel":""},"target":"${KARTOFFEL_URL}","audience":"kartoffel"}]'
+    ports:
+      - 8001:8000
+
