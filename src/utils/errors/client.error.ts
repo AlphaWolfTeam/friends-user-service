@@ -12,8 +12,8 @@ export class InvalidArgument extends ClientError {
   }
 }
 
-export class UserNotFoundError extends ClientError {
+export class UserNotFoundError extends ResourceNotFoundError {
   constructor(message?: string) {
-    super(message || 'The requested user was not found', 404);
+    super(message || 'The requested user was not found');
   }
 }

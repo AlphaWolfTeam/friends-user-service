@@ -18,7 +18,6 @@ export default class UserController {
     try {
       res = await axios.get(`${this.kartoffelProxyURL}/${id}`);
     } catch (err) {
-      console.log(err);
       if (err.response && err.response.status) {
         const statusCode: number = err.response.status;
         if (statusCode === 404) {

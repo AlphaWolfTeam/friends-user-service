@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApplicationError } from './errors/application.error';
 
+/**
+ * Wraps an asynchronous express request handler function with an error handler.
+ * @param func - the asynchronous request handler function to wrap.
+ */
 export const wrapAsync = (func: (req: Request, res: Response, next: NextFunction) => Promise<void>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     func(req, res, next).catch((error) => {

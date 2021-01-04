@@ -14,13 +14,13 @@ appRouter.get('/api/users/:id', wrapAsync(async (req, res) => {
   res.send(user);
 }));
 
-appRouter.get('/api/users', async (req, res) => {
+appRouter.get('/api/users', wrapAsync(async (req, res) => {
   const partialName = req.query.partialName;
   if (!partialName) {
     throw new InvalidArgument("argument 'partialName' was not sent in the query params");
   }
   const users = await UserController.searchByName(partialName.toString());
   res.send(users);
-});
+}));
 
 export default appRouter;
