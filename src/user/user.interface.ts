@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 // Taken From Kartoffel
 
 export interface IOrganizationGroup {
@@ -21,7 +20,7 @@ export interface IDomainUser {
   name?: string;
   uniqueID?: string;
   adfsUID?: string;
-  personId?: Types.ObjectId | string | IUser;
+  personId?: string | IUser;
 }
 
 export interface IUser {
@@ -40,8 +39,8 @@ export interface IUser {
   dischargeDay?: Date;
   hierarchy: string[];
   hierarchyFlat?: string;
-  directGroup: string | Types.ObjectId | IOrganizationGroup;
-  managedGroup?: string | Types.ObjectId | IOrganizationGroup;
+  directGroup: string | IOrganizationGroup;
+  managedGroup?: string | IOrganizationGroup;
   rank?: string;
   updatedAt?: Date;
   createdAt?: Date;
@@ -53,7 +52,7 @@ export interface IUser {
   address?: string;
   // Editable with strong permissions
   responsibility?: string;
-  responsibilityLocation?: string | Types.ObjectId | IOrganizationGroup;
+  responsibilityLocation?: string | IOrganizationGroup;
   clearance?: string;
   // Calculated
   fullName?: string;
