@@ -3,10 +3,10 @@ import * as logger from 'morgan';
 import * as express from 'express';
 import * as http from 'http';
 import * as helmet from 'helmet';
-import * as bodyParser from 'body-parser';
 import { once } from 'events';
 import { ResourceNotFoundError } from './utils/errors/client.error';
-import appRouter from './router';
+import { getByID, searchByName } from './user/user.controller';
+import { wrapAsync } from './utils/wrappers';
 
 export default class Server {
   private app: express.Application;
@@ -25,12 +25,17 @@ export default class Server {
   private configureMiddlewares() {
     this.app.use(logger('tiny'));
     this.app.use(helmet());
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: true }));
   }
 
   private configureApiRoutes() {
-    this.app.use(appRouter);
+    // Is Alive
+    this.app.get('/isAlive', (req, res) => {
+      res.status(200).send('alive');
+    });
+    // Get user by ID
+    this.app.get('/:id', wrapAsync(getByID));
+    // Search by partial name
+    this.app.get('/', wrapAsync(searchByName));
   }
 
   // configureErrorHandlers

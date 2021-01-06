@@ -6,7 +6,7 @@
   If you want to run it with the `docker-compose.yml` make sure you have an image of `Spike Proxy Service`.
 
 ## API Endpoints
-| Method 	| Endpoint          	        | Description                                   | Example           	          |
-|--------	|-----------------------------  |-------------------------------------------- |------------------------------ |
-| GET     | /api/users/:id                | Get user by ID                              | /api/users/1234567            |
-| GET    	| /api/users/?partialName       | Find users by partial name (up to 20)       | /api/users/?partialName=nike	|
+| Method 	| Endpoint      | Description                           | Example             |
+|---------|---------------|---------------------------------------|---------------------|
+| GET     | /:id          | Get user by ID                        | /1234567            |
+| GET    	| /?partialName | Find users by partial name (up to 20) | /?partialName=nike	|
