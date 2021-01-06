@@ -1,5 +1,5 @@
 import { ApplicationError } from  '../utils/errors/application.error';
-import { UserNotFoundError } from '../utils/errors/client.error';
+import { UserNotFoundError, InvalidArgument } from '../utils/errors/client.error';
 import { KartoffelError } from '../utils/errors/server.error';
 import { kartoffel } from '../config';
 import axios, { AxiosResponse } from 'axios';
@@ -29,6 +29,10 @@ export default abstract class KartoffelService {
         // Unauthorized
         if (statusCode === 401) {
           throw new ApplicationError(`Request to Kartoffel wasn't authorized: ${JSON.stringify(err)} `);
+        }
+        // Invalid argument error
+        if (statusCode === 400) {
+          throw new InvalidArgument(err.response.data.message);
         }
         throw new KartoffelError(`Error in contacting the user service : ${JSON.stringify(err)}`);
       } else {
