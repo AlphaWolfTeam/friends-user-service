@@ -35,7 +35,7 @@ export default class Server {
     // Get user by ID
     this.app.get('/:id', wrapAsync(getByID));
     // Search by partial name
-    this.app.get('/?partialName', wrapAsync(searchByName));
+    this.app.get('/', wrapAsync(searchByName));
   }
 
   // configureErrorHandlers
