@@ -56,7 +56,11 @@ export default abstract class KartoffelService {
     } catch (err) {
       throw new ApplicationError(`Unknown Error: ${err} `);
     }
+<<<<<<< HEAD
     const users: IUserNormalized[] = res.data.map((user: IUser) => getNormalizedUser(user));
+=======
+    const users: IUserNormalized[] = res.data.map((user: IUser) => getNormalisedUser(user));
+>>>>>>> dbf6356e0d2528fae68c8666995ae118fa3e78bf
     return users;
   }
 }
