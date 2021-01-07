@@ -4,7 +4,7 @@ import { KartoffelError } from '../utils/errors/server.error';
 import { kartoffel } from '../config';
 import axios, { AxiosResponse } from 'axios';
 import { IUser, IUserNormalized } from './user.interface';
-import { getNormalisedUser } from '../utils/normalize.data';
+import  getNormalizedUser from '../utils/normalize.data';
 
 /**
  * KartoffelService is an abstract class that includes static functions for communication with Kartoffel.
@@ -41,7 +41,7 @@ export default abstract class KartoffelService {
       }
     }
     // Status Code = 2XX / 3XX
-    const user: IUserNormalized = getNormalisedUser(res.data);
+    const user: IUserNormalized = getNormalizedUser(res.data);
     return user;
   }
 
@@ -57,7 +57,7 @@ export default abstract class KartoffelService {
       throw new ApplicationError(`Unknown Error: ${err} `);
     }
     const users: IUserNormalized[] = res.data.map((user: IUser) => {
-      return getNormalisedUser(user);
+      return getNormalizedUser(user);
     });
     return users;
   }
