@@ -38,7 +38,6 @@ export interface IUser {
   alive?: boolean;
   dischargeDay?: Date;
   hierarchy: string[];
-  hierarchyFlat?: string;
   directGroup: string | IOrganizationGroup;
   managedGroup?: string | IOrganizationGroup;
   rank?: string;
@@ -56,4 +55,8 @@ export interface IUser {
   clearance?: string;
   // Calculated
   fullName?: string;
+}
+
+export interface IUserNormalized extends IUser {
+  hierarchyFlat: string;
 }
