@@ -15,4 +15,5 @@ export const apmConfig = {
   isActive: process.env.ELASTIC_APM_ACTIVE || 'false',
   secretToken: process.env.ELASTIC_APM_SECRET_TOKEN || '',
   serverUrl: process.env.ELASTIC_APM_SERVER_URL,
+  traceParentHeader: process.env.APM_TRACEPARENT_HEADER || 'X-traceparent',
 };

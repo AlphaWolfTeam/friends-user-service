@@ -1,9 +1,10 @@
 import * as apm from 'elastic-apm-node';
 import { NextFunction, Request, Response } from 'express';
+import { apmConfig } from '../config';
 import { ApplicationError, ClientError } from './errors/application.error';
 
 function extractTraceparent(req: Request): string | undefined {
-  const traceparent = req.header('X-traceparent'); // add as config
+  const traceparent = req.header(apmConfig.traceParentHeader); // add as config
   return traceparent;
 }
 
