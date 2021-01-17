@@ -1,11 +1,13 @@
 
-import * as logger from 'morgan';
-import * as express from 'express';
-import * as http from 'http';
-import * as helmet from 'helmet';
+import * as apm from 'elastic-apm-node';
 import { once } from 'events';
-import { ResourceNotFoundError } from './utils/errors/client.error';
+import * as express from 'express';
+import * as helmet from 'helmet';
+import * as http from 'http';
+import * as logger from 'morgan';
+import { apmConfig } from './config';
 import { getByID, searchByName } from './user/user.controller';
+import { ResourceNotFoundError } from './utils/errors/client.error';
 import { wrapAsync } from './utils/wrappers';
 
 export default class Server {
@@ -17,6 +19,7 @@ export default class Server {
     this.port = port;
     this.app = express();
 
+    this.configureAPM();
     this.configureMiddlewares();
     this.configureApiRoutes();
     this.configureErrorHandlers();
@@ -25,6 +28,15 @@ export default class Server {
   private configureMiddlewares() {
     this.app.use(logger('tiny'));
     this.app.use(helmet());
+  }
+
+  private configureAPM() {
+    apm.start({
+      serviceName: 'user-service',
+      secretToken: apmConfig.secretToken,
+      serverUrl: apmConfig.serverUrl,
+      active: apmConfig.isActive === 'true',
+    });
   }
 
   private configureApiRoutes() {
