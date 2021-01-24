@@ -1,0 +1,30 @@
+name: Push Version
+
+on:
+  create:
+    tags:
+      - v*
+      
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: extract tag name
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+    - name: Build the main branch with the new tag
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
+      
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        
+    - name: Push image
+      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
