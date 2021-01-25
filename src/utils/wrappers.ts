@@ -3,10 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { apmConfig } from '../config';
 import { ApplicationError, ClientError } from './errors/application.error';
 
-function extractTraceparent(req: Request): string | undefined {
-  const traceparent = req.header(apmConfig.traceParentHeader); // add as config
-  return traceparent;
-}
+const extractTraceparent = (req: Request): string | undefined => req.header(apmConfig.traceParentHeader);
 
 function startApmTransaction(req: Request, functionName: string) {
   const traceparent = extractTraceparent(req);
