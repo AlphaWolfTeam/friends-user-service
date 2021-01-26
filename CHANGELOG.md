@@ -11,5 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - get user by ID from Kartoffel.
 - find users by partial-name (top 20 result).
+- apm transactions on requests.
 
 [unreleased]: https://github.com/meateam/file-service/compare/master...develop

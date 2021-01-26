@@ -7,6 +7,8 @@ services:
     environment:
       PORT: 8000
       KARTOFFEL_URL: http://outgoing-proxy-service:8000/kartoffel
+      ELASTIC_APM_ACTIVE: 'true'
+      ELASTIC_APM_SERVER_URL: http://apm:8200
     ports:
       - 8000:8000
   
@@ -32,3 +34,35 @@ services:
     ports:
       - 8001:8000
 
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.5.0"
+    environment:
+      - discovery.type=single-node
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - "-f"
+        - "http://localhost:9200"
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:7.5.0"
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+  apm:
+    image: "docker.elastic.co/apm/apm-server:7.5.0"
+    container_name: apm
+    ports:
+      - "8200:8200"
+    depends_on:
+      - elasticsearch
