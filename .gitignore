@@ -1,0 +1,10 @@
+# Build
+dist
+
+# Dependency directories
+node_modules/
+
+# vs code config
+/.vscode
+
+.env
